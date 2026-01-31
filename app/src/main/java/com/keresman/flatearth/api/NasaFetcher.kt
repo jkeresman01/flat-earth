@@ -1,8 +1,8 @@
 package com.keresman.flatearth.api
 
 import android.content.Context
-import android.content.Intent
 import com.keresman.flatearth.NasaReceiver
+import com.keresman.flatearth.framework.sendBroadcast
 
 class NasaFetcher(private val context: Context) {
 
@@ -10,6 +10,6 @@ class NasaFetcher(private val context: Context) {
         //BG
         Thread.sleep(6000)
         //BG -> FG
-        context.sendBroadcast(Intent(context, NasaReceiver::class.java))
+        context.sendBroadcast<NasaReceiver>()
     }
 }

@@ -8,11 +8,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Handler
 import android.os.Looper
-import androidx.preference.PreferenceManager
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
+import androidx.preference.PreferenceManager
 
 fun View.applyAnimation(animationId: Int)
     = startAnimation(AnimationUtils.loadAnimation(context, animationId))
