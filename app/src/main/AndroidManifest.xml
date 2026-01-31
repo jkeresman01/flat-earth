@@ -15,6 +15,9 @@
             android:name=".HostActivity"
             android:exported="false" />
         <activity
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashScreenTheme"
             android:name=".SplashScreenActivity"
             android:exported="true">
             <intent-filter>
