@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.preference.PreferenceManager
@@ -24,6 +26,9 @@ inline fun <reified T> Context.setProperty(key: String, value: T) {
     PreferenceManager.getDefaultSharedPreferences(this)
         .edit { put(key, value) }
 }
+
+fun Context.queryItems(uri: Uri): Cursor? =
+    contentResolver.query(uri, null, null, null, null)
 
 fun Context.isOnline(): Boolean {
     val connectivityManager = getSystemService<ConnectivityManager>() ?: return false

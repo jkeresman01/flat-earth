@@ -9,7 +9,9 @@ import com.keresman.flatearth.NASA_PROVIDER_CONTENT_URI
 import com.keresman.flatearth.ACTION_DATA_FETCH_ERROR
 import com.keresman.flatearth.api.model.NasaItem
 import com.keresman.flatearth.api.model.NasaItemRecord
+import com.keresman.flatearth.framework.queryItems
 import com.keresman.flatearth.handler.downloadImage
+import com.keresman.flatearth.mapping.toItems
 import com.keresman.flatearth.model.Item
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +59,6 @@ class NasaFetcher(private val context: Context) {
     private fun handleResponse(response: Response<NasaItemRecord>) {
         val itemsRecord = response.body()
         if (itemsRecord != null) {
-            context.sendBroadcast(Intent(ACTION_DATA_FETCHED))
             populateItems(itemsRecord.record)
         } else {
             broadcastError(response.code())
@@ -77,35 +78,42 @@ class NasaFetcher(private val context: Context) {
     private fun populateItems(nasaItems: List<NasaItem>) {
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
-            nasaItems.forEach {
-                val picturePath = downloadImage(context, it.url)
-
+            val itemsWithUris = nasaItems.map {
                 val values = ContentValues().apply {
                     put(Item::title.name, it.title)
                     put(Item::explanation.name, it.explanation)
-                    put(Item::picturePath.name, picturePath ?: "")
+                    put(Item::picturePath.name, "")
                     put(Item::date.name, it.date)
                     put(Item::read.name, false)
                 }
 
-                context.contentResolver.insert(
+                val uri = context.contentResolver.insert(
                     NASA_PROVIDER_CONTENT_URI,
                     values
                 )
+
+                it to uri
             }
 
-            val cursor = context.contentResolver.query(NASA_PROVIDER_CONTENT_URI, null, null, null, null)
-            cursor?.use {
-                Log.d("DB_CHECK", "Items in DB: ${it.count}")
-                while (it.moveToNext()) {
-                    val title = it.getString(it.getColumnIndexOrThrow(Item::title.name))
-                    val date = it.getString(it.getColumnIndexOrThrow(Item::date.name))
-                    val picturePath = it.getString(it.getColumnIndexOrThrow(Item::picturePath.name))
-                    Log.d("DB_CHECK", "Item: title=$title, date=$date, picturePath=$picturePath")
+            val items = context.queryItems(NASA_PROVIDER_CONTENT_URI)?.toItems() ?: emptyList()
+
+            items.forEach {
+                Log.d("DB_CHECK", "Item: title=${it.title}, date=${it.date}, picturePath=${it.picturePath}")
+            }
+
+            // items are now in DB, navigate to main activity
+            context.sendBroadcast(Intent(ACTION_DATA_FETCHED))
+
+            // continue downloading images in the background and update DB records
+            itemsWithUris.forEach { (item, uri) ->
+                val picturePath = downloadImage(context, item.url)
+                if (picturePath != null && uri != null) {
+                    val values = ContentValues().apply {
+                        put(Item::picturePath.name, picturePath)
+                    }
+                    context.contentResolver.update(uri, values, null, null)
                 }
             }
-
-            context.sendBroadcast(Intent(ACTION_DATA_FETCHED))
         }
     }
 
