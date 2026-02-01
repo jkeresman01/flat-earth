@@ -4,12 +4,12 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.keresman.flatearth.databinding.ActivityHostBinding
+import androidx.appcompat.app.AlertDialog
 
 class HostActivity : AppCompatActivity() {
 
@@ -30,26 +30,17 @@ class HostActivity : AppCompatActivity() {
     }
 
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                toggleDrawer()
-            }
-            R.id.miExit -> {
-                exitApp()
-                return true
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        android.R.id.home -> { toggleDrawer(); true }
+        R.id.miExit -> { exitApp(); true }
+        else -> super.onOptionsItemSelected(item)
     }
 
-    private fun toggleDrawer() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawers()
-        } else {
-            binding.drawerLayout.openDrawer(GravityCompat.START)
-        }
+    private fun toggleDrawer() = with(binding.drawerLayout)  {
+        if (isDrawerOpen(GravityCompat.START))
+            closeDrawers()
+        else
+            openDrawer(GravityCompat.START)
     }
 
     private fun exitApp() {
