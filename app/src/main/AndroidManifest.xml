@@ -14,6 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Flatearth">
+        <provider
+            android:name=".NasaContentProvider"
+            android:authorities="com.keresman.flatearth.provider"
+            android:enabled="true"
+            android:exported="false"></provider>
+
         <activity
             android:name=".HostActivity"
             android:exported="false" />

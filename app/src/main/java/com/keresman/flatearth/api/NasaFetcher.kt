@@ -1,9 +1,11 @@
 package com.keresman.flatearth.api
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.keresman.flatearth.ACTION_DATA_FETCHED
+import com.keresman.flatearth.NASA_PROVIDER_CONTENT_URI
 import com.keresman.flatearth.ACTION_DATA_FETCH_ERROR
 import com.keresman.flatearth.api.model.NasaItem
 import com.keresman.flatearth.api.model.NasaItemRecord
@@ -73,26 +75,36 @@ class NasaFetcher(private val context: Context) {
     }
 
     private fun populateItems(nasaItems: List<NasaItem>) {
-        //FG
-        val items = mutableListOf<Item>()
-
-        //BG
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
             nasaItems.forEach {
-                var picturePath = downloadImage(context, it.url)
+                val picturePath = downloadImage(context, it.url)
 
-                items.add(Item(
-                    null,
-                    it.title,
-                    it.explanation,
-                    picturePath ?:"",
-                    it.date,
-                    false
-                ))
+                val values = ContentValues().apply {
+                    put(Item::title.name, it.title)
+                    put(Item::explanation.name, it.explanation)
+                    put(Item::picturePath.name, picturePath ?: "")
+                    put(Item::date.name, it.date)
+                    put(Item::read.name, false)
+                }
+
+                context.contentResolver.insert(
+                    NASA_PROVIDER_CONTENT_URI,
+                    values
+                )
             }
 
-            //BG -> FG
+            val cursor = context.contentResolver.query(NASA_PROVIDER_CONTENT_URI, null, null, null, null)
+            cursor?.use {
+                Log.d("DB_CHECK", "Items in DB: ${it.count}")
+                while (it.moveToNext()) {
+                    val title = it.getString(it.getColumnIndexOrThrow(Item::title.name))
+                    val date = it.getString(it.getColumnIndexOrThrow(Item::date.name))
+                    val picturePath = it.getString(it.getColumnIndexOrThrow(Item::picturePath.name))
+                    Log.d("DB_CHECK", "Item: title=$title, date=$date, picturePath=$picturePath")
+                }
+            }
+
             context.sendBroadcast(Intent(ACTION_DATA_FETCHED))
         }
     }
