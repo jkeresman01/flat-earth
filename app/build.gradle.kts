@@ -53,4 +53,13 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // retrofit
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.retrofit2.converter.gson)
+
+    // picasso
+    implementation(libs.picasso)
+    implementation(libs.picasso.transformations)
 }

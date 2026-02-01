@@ -11,7 +11,7 @@ class NasaReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
         // FG
-        context.setProperty<Boolean>(DATA_IMPORTED, true)
+        //context.setProperty<Boolean>(DATA_IMPORTED, true)
         context.startActivity<HostActivity>()
     }
 }
