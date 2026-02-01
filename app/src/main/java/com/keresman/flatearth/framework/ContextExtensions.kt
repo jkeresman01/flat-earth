@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.ContentUris
 import android.database.Cursor
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -30,6 +31,9 @@ inline fun <reified T> Context.setProperty(key: String, value: T) {
 fun Context.queryItems(uri: Uri): Cursor? =
     contentResolver.query(uri, null, null, null, null)
 
+fun Context.deleteById(uri: Uri, id: Long): Int =
+    contentResolver.delete(ContentUris.withAppendedId(uri, id), null, null)
+
 fun Context.isOnline(): Boolean {
     val connectivityManager = getSystemService<ConnectivityManager>() ?: return false
     val network = connectivityManager.activeNetwork ?: return false
@@ -43,7 +47,7 @@ fun Context.isOnline(): Boolean {
 
 //NOTES:
 //
-// This is impossible code, unless information about the type is kept until the heap
+// This is impossible code, unless information about the type is kept
 // fun<T> Context.startActivity() = startActivity(Intent(this, T::class.java))
 
 // reified -> keep type information, can only work as macro

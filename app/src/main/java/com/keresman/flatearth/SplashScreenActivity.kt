@@ -18,7 +18,7 @@ import com.keresman.flatearth.framework.getProperty
 import com.keresman.flatearth.framework.isOnline
 import com.keresman.flatearth.framework.startActivity
 import com.keresman.flatearth.utils.callWithDelay
-import com.keresman.flatearth.extensions.showRateLimitDialog
+import androidx.appcompat.app.AlertDialog
 import com.keresman.flatearth.worker.NasaWorker
 
 const val DATA_IMPORTED = "com.keresman.flatearth.is_data_imported"
@@ -101,7 +101,13 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun onRateLimitError() {
         stopAnimations()
-        showRateLimitDialog { startActivity<HostActivity>() }
+        AlertDialog.Builder(this).apply {
+            setTitle(R.string.error)
+            setMessage(getString(R.string.rate_limit_exceeded))
+            setPositiveButton(getString(R.string.ok)) { _, _ -> startActivity<HostActivity>() }
+            setCancelable(false)
+            show()
+        }
     }
 
     private fun showNoInternet() {

@@ -11,6 +11,9 @@
     <string name="really_exit_app">Really exit app</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="delete">Delete</string>
+    <string name="really_delete_item">Do you really want to delete this item?</string>
     <string name="error">Error</string>
     <string name="rate_limit_exceeded">Request limit exceeded. Please try again later.</string>
+    <string name="images_not_downloaded">Not all images have been downloaded yet</string>
 </resources>
