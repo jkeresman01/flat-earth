@@ -9,7 +9,7 @@ import androidx.core.view.GravityCompat
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.keresman.flatearth.databinding.ActivityHostBinding
-import androidx.appcompat.app.AlertDialog
+import com.keresman.flatearth.extensions.showExitDialog
 
 class HostActivity : AppCompatActivity() {
 
@@ -43,16 +43,7 @@ class HostActivity : AppCompatActivity() {
             openDrawer(GravityCompat.START)
     }
 
-    private fun exitApp() {
-        AlertDialog.Builder(this).apply {
-            setTitle(R.string.exit)
-            setMessage(getString(R.string.really_exit_app))
-            setIcon(R.drawable.exit)
-            setNegativeButton(getString(R.string.cancel), null)
-            setPositiveButton(getString(R.string.ok)) { _, _ -> finish() }
-            show()
-        }
-    }
+    private fun exitApp() = showExitDialog()
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.host_menu, menu)

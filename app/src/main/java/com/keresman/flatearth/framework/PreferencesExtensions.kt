@@ -3,6 +3,8 @@ package com.keresman.flatearth.framework
 import android.content.SharedPreferences
 
 
+// This is way over engineered for no reason in particular
+
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T> SharedPreferences.get(key: String, default: T): T =
     when (T::class) {

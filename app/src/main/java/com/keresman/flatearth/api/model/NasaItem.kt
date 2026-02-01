@@ -1,4 +1,4 @@
-package com.keresman.flatearth.api
+package com.keresman.flatearth.api.model
 
 import com.google.gson.annotations.SerializedName
 

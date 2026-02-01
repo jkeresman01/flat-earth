@@ -11,4 +11,6 @@
     <string name="really_exit_app">Really exit app</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="error">Error</string>
+    <string name="rate_limit_exceeded">Request limit exceeded. Please try again later.</string>
 </resources>
