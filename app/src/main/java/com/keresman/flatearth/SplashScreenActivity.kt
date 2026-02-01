@@ -58,10 +58,10 @@ class SplashScreenActivity : AppCompatActivity() {
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     private fun fetchData() {
-        val filter = IntentFilter(NasaReceiver.ACTION)
+        val filter = IntentFilter(ACTION_DATA_FETCHED)
         val successReceiver = NasaReceiver()
 
-        val errorFilter = IntentFilter(NasaReceiver.ACTION_ERROR)
+        val errorFilter = IntentFilter(ACTION_DATA_FETCH_ERROR)
         val errorReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 onRateLimitError()
