@@ -43,7 +43,7 @@ class HostActivity : AppCompatActivity() {
             openDrawer(GravityCompat.START)
     }
 
-    private fun exitApp() = showExitDialog()
+    private fun exitApp() = showExitDialog { finish() }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.host_menu, menu)

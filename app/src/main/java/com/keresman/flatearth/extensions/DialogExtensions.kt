@@ -6,13 +6,13 @@ import androidx.appcompat.app.AlertDialog
 import com.keresman.flatearth.R
 
 // NOTE: Decided to put Domain-related extensions in this (extensions) package.
-fun Activity.showExitDialog() {
+fun Activity.showExitDialog(onConfirm: () -> Unit) {
     AlertDialog.Builder(this).apply {
         setTitle(R.string.exit)
         setMessage(getString(R.string.really_exit_app))
         setIcon(R.drawable.exit)
         setNegativeButton(getString(R.string.cancel), null)
-        setPositiveButton(getString(R.string.ok)) { _, _ -> finish() }
+        setPositiveButton(getString(R.string.ok)) { _, _ -> onConfirm() }
         show()
     }
 }
