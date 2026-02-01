@@ -4,4 +4,11 @@
     <string name="no_internet">No internet</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="earth_is_flat">Application that clearly proves flattnes of the earth</string>
+    <string name="items">Items</string>
+    <string name="about">About</string>
+    <string name="exit">Exit</string>
+    <string name="really_exit_app">Really exit app</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 </resources>

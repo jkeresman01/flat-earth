@@ -54,7 +54,6 @@ class SplashScreenActivity : AppCompatActivity() {
                     startActivity<HostActivity>()
                 },
                 DELAY_MS
-            /jlang/blob/main/src/CodeGen/Stmt/CodeGenStmt.cpp)
             */
         } else {
             if (isOnline()) {
