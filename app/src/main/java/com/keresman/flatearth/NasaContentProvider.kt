@@ -49,7 +49,7 @@ class NasaContentProvider : ContentProvider() {
     override fun getType(uri: Uri): String? {
         TODO(
             "Implement this to handle requests for the MIME type of the data" +
-                    "at the given URI"
+                    "at the given URI. This as useful to me know as semaphore in GTA"
         )
     }
 
@@ -59,6 +59,8 @@ class NasaContentProvider : ContentProvider() {
     }
 
     override fun onCreate(): Boolean {
+        // If I understand lifecycle of this thing correctly this is only called once and event before Application.onCreate()
+        // so there is no need for this RepositoryFactory.getInstance() to ensure single instance of DB/SQLiteRepository to be created
         repository = RepositoryFactory.getInstance(context)
         return true
     }
