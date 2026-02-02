@@ -16,4 +16,7 @@
     <string name="error">Error</string>
     <string name="rate_limit_exceeded">Request limit exceeded. Please try again later.</string>
     <string name="images_not_downloaded">Not all images have been downloaded yet</string>
+    <string name="date">Date</string>
+    <string name="title">Title</string>
+    <string name="explanation">Explanation</string>
 </resources>

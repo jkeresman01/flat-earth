@@ -1,16 +1,20 @@
 package com.keresman.flatearth.adapter
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.keresman.flatearth.ITEM_POS
+import com.keresman.flatearth.ItemPagerActivity
 import com.keresman.flatearth.NASA_PROVIDER_CONTENT_URI
 import com.keresman.flatearth.R
 import androidx.appcompat.app.AlertDialog
 import com.keresman.flatearth.framework.deleteById
+import com.keresman.flatearth.framework.startActivity
 import com.keresman.flatearth.model.Item
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
@@ -33,7 +37,9 @@ class ItemAdapter(
         holder.bind(item)
 
         holder.itemView.setOnClickListener {
-            // TODO
+            context.startActivity<ItemPagerActivity>(
+                Bundle().apply { putInt(ITEM_POS, position) }
+            )
         }
 
         holder.itemView.setOnLongClickListener {

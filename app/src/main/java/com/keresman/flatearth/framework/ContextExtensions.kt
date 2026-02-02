@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.ContentUris
+import android.os.Bundle
 import android.database.Cursor
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -13,9 +14,11 @@ import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import androidx.preference.PreferenceManager
 
-inline fun<reified T : Activity> Context.startActivity()
+inline fun<reified T : Activity> Context.startActivity(extras: Bundle? = null)
     = startActivity(Intent(this, T::class.java).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        extras?.let { putExtras(it) }
+    })
 
 inline fun<reified T : BroadcastReceiver> Context.sendBroadcast()
         = sendBroadcast(Intent(this, T::class.java))
@@ -45,8 +48,6 @@ fun Context.isOnline(): Boolean {
     )
 }
 
-//NOTES:
-//
 // This is impossible code, unless information about the type is kept
 // fun<T> Context.startActivity() = startActivity(Intent(this, T::class.java))
 

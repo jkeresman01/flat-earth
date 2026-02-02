@@ -2,8 +2,12 @@ package com.keresman.flatearth.handler
 
 import android.content.Context
 import android.util.Log
+import android.widget.ImageView
+import com.keresman.flatearth.R
 import com.keresman.flatearth.factory.createHttpUtlConnection
 import com.keresman.flatearth.utils.createFile
+import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 import java.io.File
 import java.net.HttpURLConnection
 import java.nio.file.Files
@@ -22,4 +26,14 @@ fun downloadImage(context: Context, url: String) : String? {
     }
 
     return null
+}
+
+fun loadImage(imageView: ImageView, picturePath: String) {
+    Picasso.get()
+        .load(File(picturePath))
+        .error(R.drawable.nasa)
+        .transform(RoundedCornersTransformation(50, 5))
+        .fit()
+        .centerCrop()
+        .into(imageView)
 }
